@@ -1,0 +1,42 @@
+<div class="account-page">
+  <div class="container">
+    <div class="account-header">
+      <h1>Moje Konto</h1>
+      <button class="btn btn-danger" (click)="onLogout()">Wyloguj się</button>
+    </div>
+
+    <div class="account-content">
+      <div class="profile-card">
+        <h2>Informacje o użytkowniku</h2>
+        <div class="profile-info" *ngIf="userProfile">
+          <div class="info-row">
+            <span class="label">Nazwa użytkownika:</span>
+            <span class="value">{{ userProfile.preferred_username }}</span>
+          </div>
+          <div class="info-row" *ngIf="userProfile.email">
+            <span class="label">Email:</span>
+            <span class="value">{{ userProfile.email }}</span>
+          </div>
+          <div class="info-row" *ngIf="userProfile.name">
+            <span class="label">Imię i nazwisko:</span>
+            <span class="value">{{ userProfile.name }}</span>
+          </div>
+          <div class="info-row" *ngIf="userProfile.given_name">
+            <span class="label">Imię:</span>
+            <span class="value">{{ userProfile.given_name }}</span>
+          </div>
+          <div class="info-row" *ngIf="userProfile.family_name">
+            <span class="label">Nazwisko:</span>
+            <span class="value">{{ userProfile.family_name }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-card">
+        <h2>Panel użytkownika</h2>
+        <p>Witaj w systemie Baza Firm!</p>
+        <p>Tutaj będziesz mógł zarządzać swoim kontem i dostępem do bazy firm.</p>
+      </div>
+    </div>
+  </div>
+</div>

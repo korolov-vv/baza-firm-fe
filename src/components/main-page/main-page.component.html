@@ -1,0 +1,50 @@
+<div class="main-page">
+  <app-header></app-header>
+  
+  <main class="main-content">
+    <div class="container">
+      <section class="hero-section">
+        <h1>Baza Firm</h1>
+        <p class="hero-subtitle">Baza polskich przedsiębiorstw</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" (click)="onLogin()">Zaloguj się</button>
+          <button class="btn btn-secondary" (click)="onLogin()">Załóż konto</button>
+        </div>
+      </section>
+
+      <section class="features-section">
+        <h2>W naszej bazie znajdziesz</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🏢</div>
+            <h3>Baza Firm</h3>
+            <p>Dostęp do kompleksowych informacji o firmach w Twoim regionie</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔍</div>
+            <h3>Zaawansowane wyszukiwanie</h3>
+            <p>Wyszukiwanie według województw, kodów PKD</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Nowe firmy</h3>
+            <p>Informacje o nowo powstałych firmach</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3>Bezpieczny dostęp</h3>
+            <p>Twoje dane są chronione za pomocą zabezpieczeń na poziomie korporacyjnym</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-section">
+        <h2>Gotowy, aby zacząć?</h2>
+        <p>Dołącz do tysięcy użytkowników, którzy używają Bazę Firm w swoich potrzebach biznesowych</p>
+        <button class="btn btn-primary btn-large" (click)="onLogin()">Załóż konto</button>
+      </section>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>
