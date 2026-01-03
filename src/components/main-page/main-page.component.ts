@@ -15,4 +15,8 @@ export class MainPageComponent {
   onLogin(): void {
     this.authService.login();
   }
+
+  onRegister(): void {
+    this.authService.register();
+  }
 }

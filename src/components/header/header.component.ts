@@ -14,4 +14,8 @@ export class HeaderComponent {
   onLogin(): void {
     this.authService.login();
   }
+
+  onRegister(): void {
+    this.authService.register();
+  }
 }

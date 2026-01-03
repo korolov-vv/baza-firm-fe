@@ -57,6 +57,13 @@ export class AuthService {
     this.oauthService.initCodeFlow();
   }
 
+  register(): void {
+    // Redirect to Keycloak registration page with custom parameters
+    this.oauthService.initCodeFlow(undefined, {
+      prompt: 'create'
+    });
+  }
+
   logout(): void {
     this.oauthService.logOut();
   }
