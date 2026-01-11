@@ -33,7 +33,8 @@ export class AuthService {
   }
 
   private configure(): void {
-
+    console.log('Configuring OAuth with:', authCodeFlowConfig);
+    
     this.oauthService.configure(authCodeFlowConfig);
     
     // Setup automatic silent refresh
@@ -41,6 +42,7 @@ export class AuthService {
     
     // Debug events
     this.oauthService.events.subscribe(event => {
+      console.log('OAuth Event:', event.type);
       if (event.type === 'token_refreshed') {
         console.log('Token refreshed successfully');
       }
@@ -53,9 +55,14 @@ export class AuthService {
       if (event.type === 'silent_refresh_timeout') {
         console.warn('Silent refresh timeout');
       }
+      if (event.type === 'discovery_document_loaded') {
+        console.log('Discovery document loaded successfully');
+      }
     });
 
     this.oauthService.loadDiscoveryDocumentAndTryLogin().then((success) => {
+      console.log('Discovery document loaded and login attempted. Success:', success);
+      console.log('Is authenticated:', this.oauthService.hasValidAccessToken());
       
       // Resolve the init promise - guards can now proceed
       this.initResolve();
@@ -71,6 +78,7 @@ export class AuthService {
         this.router.navigateByUrl(returnUrl);
       }
     }).catch((error) => {
+      console.error('Error loading discovery document:', error);
       this.initResolve();
     });
   }
@@ -80,7 +88,18 @@ export class AuthService {
   }
 
   login(): void {
+    console.log('Login called');
+    console.log('OAuth Service configured:', !!this.oauthService);
+    console.log('Issuer:', this.oauthService.issuer);
+    console.log('Client ID:', this.oauthService.clientId);
+    
+    if (!this.isBrowser) {
+      console.error('Cannot login in SSR mode');
+      return;
+    }
+    
     this.oauthService.initCodeFlow();
+    console.log('initCodeFlow() called');
   }
 
   register(): void {

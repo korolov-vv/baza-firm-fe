@@ -2,11 +2,68 @@
   <div class="container">
     <div class="page-header">
       <h1>Lista Firm</h1>
+      <p class="subtitle">Przeglądaj dostępne firmy w bazie danych</p>
     </div>
 
     <div class="content">
-      <p>Witaj na stronie listy firm!</p>
-      <p>Tutaj będziesz mógł przeglądać dostępne firmy w bazie danych.</p>
+      <!-- Loading indicator -->
+      <div *ngIf="isLoading" class="loading">
+        <p>Ładowanie danych...</p>
+      </div>
+
+      <!-- No data message -->
+      <div *ngIf="!isLoading && firmy.length === 0" class="no-data">
+        <p>Brak firm do wyświetlenia</p>
+      </div>
+
+      <!-- Firms table -->
+      <div *ngIf="!isLoading && firmy.length > 0" class="firms-table-container">
+        <table class="firms-table">
+          <thead>
+            <tr>
+              <th>Nazwa</th>
+              <th>NIP</th>
+              <th>REGON</th>
+              <th>KRS</th>
+              <th>Status</th>
+              <th>Województwo</th>
+              <th>Powiat</th>
+              <th>Gmina</th>
+              <th>Data rozpoczęcia</th>
+              <th>PKD główny</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let firma of firmy">
+              <td class="firma-nazwa">{{ firma.nazwa }}</td>
+              <td>{{ firma.nip || '-' }}</td>
+              <td>{{ firma.regon || '-' }}</td>
+              <td>{{ firma.krs || '-' }}</td>
+              <td>
+                <span class="status-badge" [class.status-aktywna]="firma.status === 'AKTYWNA'"
+                                          [class.status-zawieszona]="firma.status === 'ZAWIESZONA'"
+                                          [class.status-zakonczona]="firma.status === 'ZAKONCZONA'">
+                  {{ firma.status }}
+                </span>
+              </td>
+              <td>{{ firma.adresDzialalnosci?.wojewodztwo || '-' }}</td>
+              <td>{{ firma.adresDzialalnosci?.powiat || '-' }}</td>
+              <td>{{ firma.adresDzialalnosci?.gmina || '-' }}</td>
+              <td>{{ firma.dataRozpoczecia || '-' }}</td>
+              <td>{{ firma.pkdGlowny?.kod || '-' }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Pagination info -->
+        <div class="pagination-info">
+          <p>
+            Wyświetlanie {{ currentPage * pageSize + 1 }} - 
+            {{ Math.min((currentPage + 1) * pageSize, totalElements) }} 
+            z {{ totalElements }} firm
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

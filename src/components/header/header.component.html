@@ -6,8 +6,14 @@
       </div>
       <nav class="nav-menu">
         <ul>
-          <li><button class="login-btn" (click)="onLogin()">Zaloguj się</button></li>
-          <li><button class="register-btn" (click)="onRegister()">Załóż konto</button></li>
+          <ng-container *ngIf="!isAuthenticated">
+            <li><button class="login-btn" (click)="onLogin()">Zaloguj się</button></li>
+            <li><button class="register-btn" (click)="onRegister()">Załóż konto</button></li>
+          </ng-container>
+          <ng-container *ngIf="isAuthenticated">
+            <li><button class="login-btn" (click)="onAccount()">Konto</button></li>
+            <li><button class="logout-btn" (click)="onLogout()">Wyloguj</button></li>
+          </ng-container>
         </ul>
       </nav>
     </div>
