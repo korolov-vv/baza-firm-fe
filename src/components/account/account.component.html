@@ -17,17 +17,13 @@
             <span class="label">Email:</span>
             <span class="value">{{ userProfile.email }}</span>
           </div>
-          <div class="info-row" *ngIf="userProfile.name">
-            <span class="label">Imię i nazwisko:</span>
-            <span class="value">{{ userProfile.name }}</span>
+          <div class="info-row" *ngIf="userProfile.nip">
+            <span class="label">NIP:</span>
+            <span class="value">{{ userProfile.nip }}</span>
           </div>
-          <div class="info-row" *ngIf="userProfile.given_name">
-            <span class="label">Imię:</span>
-            <span class="value">{{ userProfile.given_name }}</span>
-          </div>
-          <div class="info-row" *ngIf="userProfile.family_name">
-            <span class="label">Nazwisko:</span>
-            <span class="value">{{ userProfile.family_name }}</span>
+          <div class="info-row" *ngIf="userProfile.nazwa_firmy">
+            <span class="label">Nazwa firmy:</span>
+            <span class="value">{{ userProfile.nazwa_firmy }}</span>
           </div>
         </div>
       </div>
