@@ -9,6 +9,8 @@ import { authCodeFlowConfig } from './auth-config';
 })
 export class AuthService {
   private isBrowser: boolean;
+  private initResolve!: () => void;
+  public initPromise: Promise<void>;
 
   constructor(
     private oauthService: OAuthService,
@@ -16,41 +18,65 @@ export class AuthService {
     @Inject(PLATFORM_ID) platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+    
+    // Create promise that will be resolved when initialization completes
+    this.initPromise = new Promise<void>((resolve) => {
+      this.initResolve = resolve;
+    });
+    
     if (this.isBrowser) {
       this.configure();
+    } else {
+      // Resolve immediately for SSR
+      this.initResolve();
     }
   }
 
   private configure(): void {
-    console.log('Configuring OAuth with:', authCodeFlowConfig);
-    console.log('Current URL:', window.location.href);
-    console.log('URL params:', window.location.search);
-    
+
     this.oauthService.configure(authCodeFlowConfig);
+    
+    // Setup automatic silent refresh
+    this.oauthService.setupAutomaticSilentRefresh();
     
     // Debug events
     this.oauthService.events.subscribe(event => {
-      console.log('OAuth Event:', event);
-      if (event.type === 'token_received') {
-        console.log('Token received! Redirecting to /account');
-        this.router.navigate(['/account']);
+      if (event.type === 'token_refreshed') {
+        console.log('Token refreshed successfully');
       }
       if (event.type === 'token_error') {
         console.error('Token error:', event);
       }
+      if (event.type === 'silent_refresh_error') {
+        console.error('Silent refresh error:', event);
+      }
+      if (event.type === 'silent_refresh_timeout') {
+        console.warn('Silent refresh timeout');
+      }
     });
 
     this.oauthService.loadDiscoveryDocumentAndTryLogin().then((success) => {
-      console.log('Discovery document loaded and login attempted:', success);
-      console.log('Has valid token:', this.oauthService.hasValidAccessToken());
-      console.log('Access token:', this.oauthService.getAccessToken());
-      console.log('ID token:', this.oauthService.getIdToken());
-      console.log('URL after redirect:', window.location.href);
-      console.log('State from URL:', new URLSearchParams(window.location.search).get('state'));
-      console.log('Code from URL:', new URLSearchParams(window.location.search).get('code'));
+      
+      // Resolve the init promise - guards can now proceed
+      this.initResolve();
+      
+      // Redirect after successful OAuth callback only
+      const currentUrl = this.router.url;
+      const isAuthenticated = this.oauthService.hasValidAccessToken();
+      const hasOAuthParams = currentUrl.includes('code=') || currentUrl.includes('state=');
+      
+      if (isAuthenticated && hasOAuthParams) {
+        const returnUrl = sessionStorage.getItem('returnUrl') || '/account';
+        sessionStorage.removeItem('returnUrl');
+        this.router.navigateByUrl(returnUrl);
+      }
     }).catch((error) => {
-      console.error('Error loading discovery document:', error);
+      this.initResolve();
     });
+  }
+
+  async waitForInit(): Promise<void> {
+    await this.initPromise;
   }
 
   login(): void {
