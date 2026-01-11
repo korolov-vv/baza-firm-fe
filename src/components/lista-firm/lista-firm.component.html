@@ -25,12 +25,14 @@
               <th>NIP</th>
               <th>REGON</th>
               <th>KRS</th>
-              <th>Status</th>
               <th>Województwo</th>
               <th>Powiat</th>
               <th>Gmina</th>
               <th>Data rozpoczęcia</th>
               <th>PKD główny</th>
+              <th>Telefon</th>
+              <th>Email</th>
+              <th>Strona internetowa</th>
             </tr>
           </thead>
           <tbody>
@@ -39,18 +41,17 @@
               <td>{{ firma.nip || '-' }}</td>
               <td>{{ firma.regon || '-' }}</td>
               <td>{{ firma.krs || '-' }}</td>
-              <td>
-                <span class="status-badge" [class.status-aktywna]="firma.status === 'AKTYWNA'"
-                                          [class.status-zawieszona]="firma.status === 'ZAWIESZONA'"
-                                          [class.status-zakonczona]="firma.status === 'ZAKONCZONA'">
-                  {{ firma.status }}
-                </span>
-              </td>
               <td>{{ firma.adresDzialalnosci?.wojewodztwo || '-' }}</td>
               <td>{{ firma.adresDzialalnosci?.powiat || '-' }}</td>
               <td>{{ firma.adresDzialalnosci?.gmina || '-' }}</td>
               <td>{{ firma.dataRozpoczecia || '-' }}</td>
               <td>{{ firma.pkdGlowny?.kod || '-' }}</td>
+              <td>{{ firma.telefon || '-' }}</td>
+              <td>{{ firma.email || '-' }}</td>
+              <td>
+                <a *ngIf="firma.www" [href]="firma.www" target="_blank" rel="noopener noreferrer">{{ firma.www }}</a>
+                <span *ngIf="!firma.www">-</span>
+              </td>
             </tr>
           </tbody>
         </table>

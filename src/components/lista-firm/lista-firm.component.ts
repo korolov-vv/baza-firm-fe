@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../core/services/api.service';
 import { AuthService } from '../../core/auth/auth.service';
-import { FirmaDto, FirmaSearchParams, PageableResponse } from '../../core/models/firma.model';
+import { FirmaListDto, FirmaSearchParams, PageableResponse } from '../../core/models/firma.model';
 import { HttpParams } from '@angular/common/http';
 
 @Component({
@@ -12,7 +12,7 @@ import { HttpParams } from '@angular/common/http';
   styleUrls: ['./lista-firm.component.scss']
 })
 export class ListaFirmComponent implements OnInit {
-  firmy: FirmaDto[] = [];
+  firmy: FirmaListDto[] = [];
   totalElements: number = 0;
   currentPage: number = 0;
   pageSize: number = 10;
@@ -77,7 +77,7 @@ export class ListaFirmComponent implements OnInit {
       params = params.set('sort', this.searchParams.sort);
     }
 
-    this.apiService.get<PageableResponse<FirmaDto>>('firmy', params)
+    this.apiService.get<PageableResponse<FirmaListDto>>('firmy', params)
       .subscribe({
         next: (response) => {
           this.firmy = response.content;

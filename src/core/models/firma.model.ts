@@ -20,7 +20,7 @@ export enum BusinessStatus {
   ZAKONCZONA = 'ZAKONCZONA'
 }
 
-export interface FirmaDto {
+export interface FirmaListDto {
   nazwa: string;
   nip: string;
   regon: string;
@@ -32,7 +32,6 @@ export interface FirmaDto {
   dataRozpoczecia: string;
   dataZawieszenia?: string;
   dataZakonczenia?: string;
-  status: BusinessStatus;
   telefon?: string;
   email?: string;
   www?: string;
