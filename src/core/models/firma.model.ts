@@ -23,18 +23,13 @@ export enum BusinessStatus {
 export interface FirmaListDto {
   nazwa: string;
   nip: string;
-  regon: string;
-  krs: string;
-  adresDzialalnosci: AdresDto;
-  adresKorespondencyjny: AdresDto;
   pkdGlowny: Pkd;
-  pkd: Pkd[];
-  dataRozpoczecia: string;
-  dataZawieszenia?: string;
-  dataZakonczenia?: string;
   telefon?: string;
   email?: string;
   www?: string;
+  statusKontaktu?: string;
+  dataOstatniegoKontaktu?: string;
+  komentarz?: string;
 }
 
 export interface FirmaSearchParams {
