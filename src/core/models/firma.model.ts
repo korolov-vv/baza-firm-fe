@@ -23,10 +23,10 @@ export enum BusinessStatus {
 export interface FirmaListDto {
   nazwa: string;
   nip: string;
+  wojewodztwo?: string;
   pkdGlowny: Pkd;
   telefon?: string;
   email?: string;
-  www?: string;
   statusKontaktu?: string;
   dataOstatniegoKontaktu?: string;
   komentarz?: string;

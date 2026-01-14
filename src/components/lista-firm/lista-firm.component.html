@@ -20,10 +20,10 @@
             <tr>
               <th>Nazwa</th>
               <th>NIP</th>
+              <th>Województwo</th>
               <th>PKD główny</th>
               <th>Telefon</th>
               <th>Email</th>
-              <th>Strona internetowa</th>
               <th>Status kontaktu</th>
               <th>Data ostatniego kontaktu</th>
               <th>Komentarz</th>
@@ -33,13 +33,10 @@
             <tr *ngFor="let firma of firmy">
               <td class="firma-nazwa">{{ firma.nazwa }}</td>
               <td>{{ firma.nip || '-' }}</td>
+              <td>{{ firma.wojewodztwo || '-' }}</td>
               <td>{{ firma.pkdGlowny?.kod || '-' }}</td>
               <td>{{ firma.telefon || '-' }}</td>
               <td>{{ firma.email || '-' }}</td>
-              <td>
-                <a *ngIf="firma.www" [href]="firma.www" target="_blank" rel="noopener noreferrer">{{ firma.www }}</a>
-                <span *ngIf="!firma.www">-</span>
-              </td>
               <td>{{ firma.statusKontaktu || '-' }}</td>
               <td>
                 {{ firma.dataOstatniegoKontaktu ? (firma.dataOstatniegoKontaktu | date:'dd.MM.yyyy') : '-' }}
