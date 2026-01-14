@@ -56,10 +56,31 @@
         <!-- Pagination info -->
         <div class="pagination-info">
           <p>
-            Wyświetlanie {{ currentPage * pageSize + 1 }} - 
-            {{ Math.min((currentPage + 1) * pageSize, totalElements) }} 
-            z {{ totalElements }} firm
+            Wyświetlanie {{ (currentPage || 0) * (pageSize || 10) + 1 }} - 
+            {{ Math.min(((currentPage || 0) + 1) * (pageSize || 10), totalElements || 0) }} 
+            z {{ totalElements || 0 }} firm
           </p>
+        </div>
+
+        <!-- Pagination controls -->
+        <div class="pagination-controls">
+          <button 
+            class="pagination-btn" 
+            (click)="onPageChange(currentPage - 1)" 
+            [disabled]="currentPage === 0">
+            ← Poprzednia
+          </button>
+          
+          <span class="current-page">
+            Strona {{ (currentPage || 0) + 1 }} z {{ totalPages || 1 }}
+          </span>
+          
+          <button 
+            class="pagination-btn" 
+            (click)="onPageChange(currentPage + 1)" 
+            [disabled]="(currentPage + 1) * pageSize >= totalElements">
+            Następna →
+          </button>
         </div>
       </div>
     </div>

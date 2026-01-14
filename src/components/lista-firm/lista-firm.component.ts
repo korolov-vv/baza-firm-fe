@@ -15,6 +15,7 @@ import { AccountHeaderComponent } from '../account-header/account-header.compone
 export class ListaFirmComponent implements OnInit {
   firmy: FirmaListDto[] = [];
   totalElements: number = 0;
+  totalPages: number = 0;
   currentPage: number = 0;
   pageSize: number = 10;
   isLoading: boolean = false;
@@ -83,8 +84,9 @@ export class ListaFirmComponent implements OnInit {
         next: (response) => {
           this.firmy = response.content;
           this.totalElements = response.totalElements;
-          this.currentPage = response.number;
-          this.pageSize = response.size;
+          this.totalPages = response.totalPages;
+          this.currentPage = response.pageNumber;
+          this.pageSize = response.pageSize;
           this.isLoading = false;
         },
         error: (error) => {
