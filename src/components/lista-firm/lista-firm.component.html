@@ -1,12 +1,7 @@
 <div class="lista-firm-page">
   <div class="container">
     <app-account-header></app-account-header>
-
-    <div class="page-header">
-      <h1>Lista Firm</h1>
-      <p class="subtitle">Przeglądaj firmy dostępne w bazie danych</p>
-    </div>
-
+    
     <div class="content">
       <!-- Loading indicator -->
       <div *ngIf="isLoading" class="loading">
@@ -53,15 +48,6 @@
           </tbody>
         </table>
 
-        <!-- Pagination info -->
-        <div class="pagination-info">
-          <p>
-            Wyświetlanie {{ (currentPage || 0) * (pageSize || 10) + 1 }} - 
-            {{ Math.min(((currentPage || 0) + 1) * (pageSize || 10), totalElements || 0) }} 
-            z {{ totalElements || 0 }} firm
-          </p>
-        </div>
-
         <!-- Pagination controls -->
         <div class="pagination-controls">
           <button 
@@ -82,6 +68,16 @@
             Następna →
           </button>
         </div>
+
+        <!-- Pagination info -->
+        <div class="pagination-info">
+          <p>
+            Wyświetlanie {{ (currentPage || 0) * (pageSize || 10) + 1 }} - 
+            {{ Math.min(((currentPage || 0) + 1) * (pageSize || 10), totalElements || 0) }} 
+            z {{ totalElements || 0 }} firm
+          </p>
+        </div>
+
       </div>
     </div>
   </div>

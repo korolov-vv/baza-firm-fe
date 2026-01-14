@@ -3,6 +3,10 @@ import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { authCodeFlowConfig } from './auth-config';
+import { ApiService } from '../services/api.service';
+import { Uzytkownik } from '../models/uzytkownik.model';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +15,23 @@ export class AuthService {
   private isBrowser: boolean;
   private initResolve!: () => void;
   public initPromise: Promise<void>;
+  private readonly USER_DATA_KEY = 'userData';
+  
+  private currentUserSubject = new BehaviorSubject<Uzytkownik | null>(null);
+  public currentUser$: Observable<Uzytkownik | null> = this.currentUserSubject.asObservable();
 
   constructor(
     private oauthService: OAuthService,
     private router: Router,
+    private apiService: ApiService,
     @Inject(PLATFORM_ID) platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+    
+    // Load user data from session storage if available
+    if (this.isBrowser) {
+      this.loadUserDataFromStorage();
+    }
     
     // Create promise that will be resolved when initialization completes
     this.initPromise = new Promise<void>((resolve) => {
@@ -67,6 +81,14 @@ export class AuthService {
       // Resolve the init promise - guards can now proceed
       this.initResolve();
       
+      // Fetch user data if authenticated
+      if (this.oauthService.hasValidAccessToken()) {
+        this.fetchUserData().subscribe({
+          next: () => console.log('User data loaded successfully'),
+          error: (error) => console.error('Failed to load user data:', error)
+        });
+      }
+      
       // Redirect after successful OAuth callback only
       const currentUrl = this.router.url;
       const isAuthenticated = this.oauthService.hasValidAccessToken();
@@ -110,6 +132,7 @@ export class AuthService {
   }
 
   logout(): void {
+    this.clearUserData();
     this.oauthService.logOut();
   }
 
@@ -123,5 +146,58 @@ export class AuthService {
 
   get accessToken(): string {
     return this.oauthService.getAccessToken();
+  }
+
+  get currentUser(): Uzytkownik | null {
+    return this.currentUserSubject.value;
+  }
+
+  /**
+   * Fetches user data from the backend and stores it in session storage
+   */
+  fetchUserData(): Observable<Uzytkownik> {
+    return this.apiService.get<Uzytkownik>('uzytkownicy/me').pipe(
+      tap(userData => {
+        this.setUserData(userData);
+      })
+    );
+  }
+
+  /**
+   * Stores user data in session storage and updates the observable
+   */
+  private setUserData(userData: Uzytkownik): void {
+    if (this.isBrowser) {
+      sessionStorage.setItem(this.USER_DATA_KEY, JSON.stringify(userData));
+    }
+    this.currentUserSubject.next(userData);
+  }
+
+  /**
+   * Loads user data from session storage
+   */
+  private loadUserDataFromStorage(): void {
+    if (this.isBrowser) {
+      const stored = sessionStorage.getItem(this.USER_DATA_KEY);
+      if (stored) {
+        try {
+          const userData = JSON.parse(stored) as Uzytkownik;
+          this.currentUserSubject.next(userData);
+        } catch (error) {
+          console.error('Failed to parse user data from storage:', error);
+          sessionStorage.removeItem(this.USER_DATA_KEY);
+        }
+      }
+    }
+  }
+
+  /**
+   * Clears user data from session storage
+   */
+  private clearUserData(): void {
+    if (this.isBrowser) {
+      sessionStorage.removeItem(this.USER_DATA_KEY);
+    }
+    this.currentUserSubject.next(null);
   }
 }

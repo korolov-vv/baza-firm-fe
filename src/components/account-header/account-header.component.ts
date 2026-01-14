@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
 import { filter } from 'rxjs/operators';
+import { Uzytkownik } from '../../core/models/uzytkownik.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-account-header',
@@ -11,9 +13,10 @@ import { filter } from 'rxjs/operators';
   templateUrl: './account-header.component.html',
   styleUrls: ['./account-header.component.scss']
 })
-export class AccountHeaderComponent implements OnInit {
-  userProfile: any;
+export class AccountHeaderComponent implements OnInit, OnDestroy {
+  userData: Uzytkownik | null = null;
   currentRoute: string = '';
+  private userSubscription?: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -28,8 +31,15 @@ export class AccountHeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userProfile = this.authService.userProfile;
+    // Subscribe to user data changes
+    this.userSubscription = this.authService.currentUser$.subscribe(
+      user => this.userData = user
+    );
     this.currentRoute = this.router.url;
+  }
+
+  ngOnDestroy(): void {
+    this.userSubscription?.unsubscribe();
   }
 
   isActive(route: string): boolean {

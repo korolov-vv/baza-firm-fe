@@ -5,30 +5,77 @@
     <div class="account-content">
       <div class="profile-card">
         <h2>Informacje o użytkowniku</h2>
-        <div class="profile-info" *ngIf="userProfile">
+        <div class="profile-info" *ngIf="userData">
           <div class="info-row">
-            <span class="label">Nazwa użytkownika:</span>
-            <span class="value">{{ userProfile.preferred_username }}</span>
+            <span class="label">Email użytkownika:</span>
+            <span class="value">{{ userData.email }}</span>
           </div>
-          <div class="info-row" *ngIf="userProfile.email">
-            <span class="label">Email:</span>
-            <span class="value">{{ userProfile.email }}</span>
+          <div class="info-row">
+            <span class="label">NIP firmy:</span>
+            <span class="value">{{ userData.nip }}</span>
           </div>
-          <div class="info-row" *ngIf="userProfile.nip">
-            <span class="label">NIP:</span>
-            <span class="value">{{ userProfile.nip }}</span>
-          </div>
-          <div class="info-row" *ngIf="userProfile.nazwa_firmy">
+          <div class="info-row">
             <span class="label">Nazwa firmy:</span>
-            <span class="value">{{ userProfile.nazwa_firmy }}</span>
+            <span class="value">{{ userData.nazwaFirmy }}</span>
           </div>
+          <div class="info-row" *ngIf="userData.czyEmailPotwierdzony">
+            <span class="label">Status email:</span>
+            <span class="value">✓ Potwierdzony</span>
+          </div>
+          <div class="info-row" *ngIf="!userData.czyEmailPotwierdzony">
+            <span class="label">Status email:</span>
+            <span class="value">⚠ Nie potwierdzony</span>
+          </div>
+        </div>
+        <div class="profile-info" *ngIf="!userData">
+          <p>Ładowanie danych użytkownika...</p>
         </div>
       </div>
 
       <div class="dashboard-card">
         <h2>Panel użytkownika</h2>
         <p>Witaj w systemie Baza Firm!</p>
-        <p>Tutaj będziesz mógł zarządzać swoim kontem i dostępem do bazy firm.</p>
+        
+        <div *ngIf="userData?.aktywnaSubscrypcja" class="subscription-section">
+          <div class="subscription-header">
+            <h3>📋 Informacje o subskrypcji</h3>
+            <span class="subscription-badge active">Aktywna</span>
+          </div>
+          
+          <div class="subscription-details">
+            <div class="subscription-name">
+              <div class="icon">📦</div>
+              <div class="content">
+                <span class="detail-label">Pakiet</span>
+                <span class="detail-value">{{ userData?.aktywnaSubscrypcja?.nazwa }}</span>
+              </div>
+            </div>
+            
+            <div class="subscription-dates">
+              <div class="date-item">
+                <div class="icon">🗓️</div>
+                <div class="content">
+                  <span class="detail-label">Data rozpoczęcia</span>
+                  <span class="detail-value">{{ userData?.aktywnaSubscrypcja?.aktywnaOd | date:'dd.MM.yyyy' }}</span>
+                </div>
+              </div>
+              
+              <div class="date-item">
+                <div class="icon">⏰</div>
+                <div class="content">
+                  <span class="detail-label">Data zakończenia</span>
+                  <span class="detail-value">{{ userData?.aktywnaSubscrypcja?.aktywnaDo | date:'dd.MM.yyyy' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+        
+        <div *ngIf="!userData?.aktywnaSubscrypcja" class="no-subscription">
+          <div class="no-subscription-icon">⚠️</div>
+          <p>Brak aktywnej subskrypcji</p>
+          <p class="no-subscription-hint">Wykup subskrypcję, aby uzyskać dostęp do bazy firm</p>
+        </div>
       </div>
     </div>
     <div>
