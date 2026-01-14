@@ -4,10 +4,11 @@ import { ApiService } from '../../core/services/api.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { FirmaListDto, FirmaSearchParams, PageableResponse } from '../../core/models/firma.model';
 import { HttpParams } from '@angular/common/http';
+import { AccountHeaderComponent } from '../account-header/account-header.component';
 
 @Component({
   selector: 'app-lista-firm',
-  imports: [CommonModule],
+  imports: [CommonModule, AccountHeaderComponent],
   templateUrl: './lista-firm.component.html',
   styleUrls: ['./lista-firm.component.scss']
 })

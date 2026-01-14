@@ -1,0 +1,31 @@
+<div class="account-header">
+  <div class="header-left">
+    <h1>Moje Konto</h1>
+  </div>
+  <div class="header-right">
+    <button class="btn btn-danger" (click)="onLogout()">Wyloguj się</button>
+  </div>
+</div>
+
+<nav class="account-nav">
+  <ul class="nav-tabs">
+    <li class="nav-item">
+      <a 
+        class="nav-link" 
+        [class.active]="isActive('/account')"
+        (click)="navigateTo('/account')"
+      >
+        Pulpit
+      </a>
+    </li>
+    <li class="nav-item">
+      <a 
+        class="nav-link" 
+        [class.active]="isActive('/account/lista-firm')"
+        (click)="navigateTo('/account/lista-firm')"
+      >
+        Lista Firm
+      </a>
+    </li>
+  </ul>
+</nav>

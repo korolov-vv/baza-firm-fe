@@ -16,7 +16,7 @@ export const routes: Routes = [
     component: AccountComponent
   },
   {
-    path: 'lista-firm',
+    path: 'account/lista-firm',
     canActivate: [AuthGuard],
     component: ListaFirmComponent
   },

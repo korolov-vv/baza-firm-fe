@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../core/auth/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AccountHeaderComponent } from '../account-header/account-header.component';
 
 @Component({
   selector: 'app-account',
-  imports: [CommonModule],
+  imports: [CommonModule, AccountHeaderComponent],
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']
 })
@@ -21,12 +22,7 @@ export class AccountComponent implements OnInit {
     this.userProfile = this.authService.userProfile;
   }
 
-  onLogout(): void {
-    this.authService.logout();
-    this.router.navigate(['/']);
-  }
-
   navigateToListaFirm(): void {
-    this.router.navigate(['/lista-firm']);
+    this.router.navigate(['/account/lista-firm']);
   }
 }
