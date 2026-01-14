@@ -50,23 +50,37 @@
 
         <!-- Pagination controls -->
         <div class="pagination-controls">
-          <button 
-            class="pagination-btn" 
-            (click)="onPageChange(currentPage - 1)" 
-            [disabled]="currentPage === 0">
-            ← Poprzednia
-          </button>
-          
-          <span class="current-page">
-            Strona {{ (currentPage || 0) + 1 }} z {{ totalPages || 1 }}
-          </span>
-          
-          <button 
-            class="pagination-btn" 
-            (click)="onPageChange(currentPage + 1)" 
-            [disabled]="(currentPage + 1) * pageSize >= totalElements">
-            Następna →
-          </button>
+          <div class="page-navigation">
+            <button 
+              class="pagination-btn" 
+              (click)="onPageChange(currentPage - 1)" 
+              [disabled]="currentPage === 0">
+              ← Poprzednia
+            </button>
+            
+            <span class="current-page">
+              Strona {{ (currentPage || 0) + 1 }} z {{ totalPages || 1 }}
+            </span>
+            
+            <button 
+              class="pagination-btn" 
+              (click)="onPageChange(currentPage + 1)" 
+              [disabled]="(currentPage + 1) * pageSize >= totalElements">
+              Następna →
+            </button>
+          </div>
+
+          <div class="page-size-selector">
+            <label for="pageSize">Wyświetl:</label>
+            <select 
+              id="pageSize" 
+              (change)="onPageSizeChange(+$any($event.target).value)">
+              <option *ngFor="let size of availablePageSizes" [value]="size" [selected]="size === pageSize">
+                {{ size }}
+              </option>
+            </select>
+            <span>rekordów na stronę</span>
+          </div>
         </div>
 
         <!-- Pagination info -->

@@ -20,6 +20,7 @@ export class ListaFirmComponent implements OnInit {
   pageSize: number = 10;
   isLoading: boolean = false;
   Math = Math; // Make Math available in template
+  availablePageSizes: number[] = [10, 25, 50];
 
   searchParams: FirmaSearchParams = {
     page: 0,
@@ -103,6 +104,13 @@ export class ListaFirmComponent implements OnInit {
 
   onPageChange(page: number): void {
     this.searchParams.page = page;
+    this.loadFirmy();
+  }
+
+  onPageSizeChange(size: number): void {
+    this.pageSize = size;
+    this.searchParams.size = size;
+    this.searchParams.page = 0; // Reset to first page when changing page size
     this.loadFirmy();
   }
 }
