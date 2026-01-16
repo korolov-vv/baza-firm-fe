@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../core/services/api.service';
 import { AuthService } from '../../core/auth/auth.service';
-import { FirmaListDto, FirmaSearchParams, PageableResponse } from '../../core/models/firma.model';
+import { FirmaListDto, FirmaSearchParams, PageableResponse, FirmaCrmSzczegoly } from '../../core/models/firma.model';
 import { HttpParams } from '@angular/common/http';
 import { AccountHeaderComponent } from '../account-header/account-header.component';
+import { FirmaDetailsComponent } from '../firma-details/firma-details.component';
 
 @Component({
   selector: 'app-lista-firm',
-  imports: [CommonModule, AccountHeaderComponent],
+  imports: [CommonModule, AccountHeaderComponent, FirmaDetailsComponent],
   templateUrl: './lista-firm.component.html',
   styleUrls: ['./lista-firm.component.scss']
 })
@@ -21,6 +22,11 @@ export class ListaFirmComponent implements OnInit {
   isLoading: boolean = false;
   Math = Math; // Make Math available in template
   availablePageSizes: number[] = [10, 25, 50];
+  
+  // Modal state
+  isModalOpen: boolean = false;
+  selectedFirma: FirmaCrmSzczegoly | null = null;
+  isLoadingDetails: boolean = false;
 
   searchParams: FirmaSearchParams = {
     page: 0,
@@ -112,5 +118,30 @@ export class ListaFirmComponent implements OnInit {
     this.searchParams.size = size;
     this.searchParams.page = 0; // Reset to first page when changing page size
     this.loadFirmy();
+  }
+
+  onRowDoubleClick(firma: FirmaListDto): void {
+    this.loadFirmaDetails(firma.uuid);
+  }
+
+  loadFirmaDetails(uuid: string): void {
+    this.isLoadingDetails = true;
+    this.apiService.get<FirmaCrmSzczegoly>(`firmy/${uuid}`)
+      .subscribe({
+        next: (details) => {
+          this.selectedFirma = details;
+          this.isModalOpen = true;
+          this.isLoadingDetails = false;
+        },
+        error: (error) => {
+          console.error('Error loading firma details:', error);
+          this.isLoadingDetails = false;
+        }
+      });
+  }
+
+  onCloseModal(): void {
+    this.isModalOpen = false;
+    this.selectedFirma = null;
   }
 }

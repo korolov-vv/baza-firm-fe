@@ -30,7 +30,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let firma of firmy">
+            <tr 
+              *ngFor="let firma of firmy" 
+              (dblclick)="onRowDoubleClick(firma)"
+              class="table-row">
               <td class="firma-nazwa">{{ firma.nazwa }}</td>
               <td>{{ firma.nip || '-' }}</td>
               <td>{{ firma.wojewodztwo || '-' }}</td>
@@ -40,8 +43,9 @@
               <td>{{ firma.statusKontaktu || '-' }}</td>
               <td>
                 {{ firma.dataOstatniegoKontaktu ? (firma.dataOstatniegoKontaktu | date:'dd.MM.yyyy') : '-' }}
+              </td>
+              <td>{{ firma.komentarz || '-' }}</td>
             </tr>
-          
           </tbody>
         </table>
 
@@ -90,6 +94,20 @@
         </div>
 
       </div>
+    </div>
+  </div>
+
+  <!-- Firma Details Modal -->
+  <app-firma-details
+    [firma]="selectedFirma"
+    [isOpen]="isModalOpen"
+    (close)="onCloseModal()">
+  </app-firma-details>
+
+  <!-- Loading indicator for details -->
+  <div *ngIf="isLoadingDetails" class="loading-overlay">
+    <div class="loading-spinner">
+      <p>Ładowanie szczegółów...</p>
     </div>
   </div>
 </div>

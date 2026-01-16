@@ -21,6 +21,7 @@ export enum BusinessStatus {
 }
 
 export interface FirmaListDto {
+  uuid: string;
   nazwa: string;
   nip: string;
   wojewodztwo?: string;
@@ -29,6 +30,26 @@ export interface FirmaListDto {
   email?: string;
   statusKontaktu?: string;
   dataOstatniegoKontaktu?: string;
+  komentarz?: string;
+}
+
+export interface FirmaCrmSzczegoly {
+  version: number;
+  uuid: string;
+  nazwa: string;
+  nip?: string;
+  regon?: string;
+  adresKorespondencyjny?: string;
+  adresDzialalnosci?: string;
+  pkdGlowny?: string;
+  pozostalePkd?: string;
+  telefon?: string;
+  email?: string;
+  stronaWww?: string;
+  statusKontaktu?: string;
+  sposobKontaktu?: string;
+  dataOstatniegoKontaktu?: string;
+  dataNastepnegoKontaktu?: string;
   komentarz?: string;
 }
 
