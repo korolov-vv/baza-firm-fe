@@ -2,7 +2,10 @@
   <div class="modal-content">
     <div class="modal-header">
       <h2>Szczegóły firmy</h2>
-      <button class="close-btn" (click)="onClose()" aria-label="Zamknij">&times;</button>
+      <div class="header-actions">
+        <button *ngIf="!isEditing" class="btn btn-primary" (click)="onEdit()">Edytuj dane o kontakcie</button>
+        <button class="close-btn" (click)="onClose()" aria-label="Zamknij">&times;</button>
+      </div>
     </div>
 
     <div class="modal-body" *ngIf="firma">
@@ -79,30 +82,68 @@
         <div class="details-grid">
           <div class="detail-item">
             <label>Status kontaktu:</label>
-            <span>{{ firma.statusKontaktu || '-' }}</span>
+            <select 
+              *ngIf="isEditing && editedFirma" 
+              [(ngModel)]="editedFirma.statusKontaktu"
+              class="form-select">
+              <option [ngValue]="null">-</option>
+              <option *ngFor="let status of statusKontaktuOptions" [ngValue]="status">
+                {{ getStatusLabel(status) }}
+              </option>
+            </select>
+            <span *ngIf="!isEditing">{{ getStatusLabel(firma.statusKontaktu) }}</span>
           </div>
-          <div class="detail-item">
+          <div class="detail-item" *ngIf="shouldShowSposobKontaktu(isEditing ? editedFirma?.statusKontaktu : firma.statusKontaktu)">
             <label>Sposób kontaktu:</label>
-            <span>{{ firma.sposobKontaktu || '-' }}</span>
+            <select 
+              *ngIf="isEditing && editedFirma" 
+              [(ngModel)]="editedFirma.sposobKontaktu"
+              class="form-select">
+              <option [ngValue]="null">-</option>
+              <option *ngFor="let sposob of sposobKontaktuOptions" [ngValue]="sposob">
+                {{ getSposobKontaktuLabel(sposob) }}
+              </option>
+            </select>
+            <span *ngIf="!isEditing">{{ getSposobKontaktuLabel(firma.sposobKontaktu) }}</span>
           </div>
-          <div class="detail-item">
+          <div class="detail-item" *ngIf="shouldShowSposobKontaktu(isEditing ? editedFirma?.statusKontaktu : firma.statusKontaktu)">
             <label>Data ostatniego kontaktu:</label>
-            <span>{{ formatDate(firma.dataOstatniegoKontaktu) }}</span>
+            <input 
+              *ngIf="isEditing && editedFirma"
+              type="datetime-local"
+              [(ngModel)]="editedFirma.dataOstatniegoKontaktu"
+              class="form-input" />
+            <span *ngIf="!isEditing">{{ formatDate(firma.dataOstatniegoKontaktu) }}</span>
           </div>
-          <div class="detail-item">
+          <div class="detail-item" *ngIf="shouldShowDataNastepnegoKontaktu(isEditing ? editedFirma?.statusKontaktu : firma.statusKontaktu)">
             <label>Data następnego kontaktu:</label>
-            <span>{{ formatDate(firma.dataNastepnegoKontaktu) }}</span>
+            <input 
+              *ngIf="isEditing && editedFirma"
+              type="datetime-local"
+              [(ngModel)]="editedFirma.dataNastepnegoKontaktu"
+              class="form-input" />
+            <span *ngIf="!isEditing">{{ formatDate(firma.dataNastepnegoKontaktu) }}</span>
           </div>
-          <div class="detail-item full-width">
+          <div class="detail-item full-width" *ngIf="shouldShowSposobKontaktu(isEditing ? editedFirma?.statusKontaktu : firma.statusKontaktu)">
             <label>Komentarz:</label>
-            <span>{{ firma.komentarz || '-' }}</span>
+            <textarea 
+              *ngIf="isEditing && editedFirma"
+              [(ngModel)]="editedFirma.komentarz"
+              class="form-textarea"
+              rows="4"
+              placeholder="Wprowadź komentarz..."></textarea>
+            <span *ngIf="!isEditing">{{ firma.komentarz || '-' }}</span>
           </div>
         </div>
       </section>
     </div>
 
     <div class="modal-footer">
-      <button class="btn btn-secondary" (click)="onClose()">Zamknij</button>
+      <button *ngIf="isEditing" class="btn btn-secondary" (click)="onCancel()" [disabled]="isSaving">Anuluj</button>
+      <button *ngIf="isEditing" class="btn btn-primary" (click)="onSave()" [disabled]="isSaving">
+        {{ isSaving ? 'Zapisywanie...' : 'Zapisz' }}
+      </button>
+      <button *ngIf="!isEditing" class="btn btn-secondary" (click)="onClose()">Zamknij</button>
     </div>
   </div>
 </div>

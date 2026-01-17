@@ -47,7 +47,6 @@ export class AuthService {
   }
 
   private configure(): void {
-    console.log('Configuring OAuth with:', authCodeFlowConfig);
     
     this.oauthService.configure(authCodeFlowConfig);
     
@@ -56,7 +55,6 @@ export class AuthService {
     
     // Debug events
     this.oauthService.events.subscribe(event => {
-      console.log('OAuth Event:', event.type);
       if (event.type === 'token_refreshed') {
         console.log('Token refreshed successfully');
       }
@@ -75,18 +73,12 @@ export class AuthService {
     });
 
     this.oauthService.loadDiscoveryDocumentAndTryLogin().then((success) => {
-      console.log('Discovery document loaded and login attempted. Success:', success);
-      console.log('Is authenticated:', this.oauthService.hasValidAccessToken());
       
       // Resolve the init promise - guards can now proceed
       this.initResolve();
       
       // Fetch user data if authenticated
       if (this.oauthService.hasValidAccessToken()) {
-        this.fetchUserData().subscribe({
-          next: () => console.log('User data loaded successfully'),
-          error: (error) => console.error('Failed to load user data:', error)
-        });
       }
       
       // Redirect after successful OAuth callback only
@@ -121,7 +113,6 @@ export class AuthService {
     }
     
     this.oauthService.initCodeFlow();
-    console.log('initCodeFlow() called');
   }
 
   register(): void {

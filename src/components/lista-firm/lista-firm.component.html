@@ -40,7 +40,7 @@
               <td>{{ firma.pkdGlowny?.kod || '-' }}</td>
               <td>{{ firma.telefon || '-' }}</td>
               <td>{{ firma.email || '-' }}</td>
-              <td>{{ firma.statusKontaktu || '-' }}</td>
+              <td>{{ getStatusKontaktuLabel(firma.statusKontaktu) }}</td>
               <td>
                 {{ firma.dataOstatniegoKontaktu ? (firma.dataOstatniegoKontaktu | date:'dd.MM.yyyy') : '-' }}
               </td>
@@ -101,7 +101,8 @@
   <app-firma-details
     [firma]="selectedFirma"
     [isOpen]="isModalOpen"
-    (close)="onCloseModal()">
+    (close)="onCloseModal()"
+    (firmaUpdated)="onFirmaUpdated($event)">
   </app-firma-details>
 
   <!-- Loading indicator for details -->

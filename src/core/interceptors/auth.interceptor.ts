@@ -19,11 +19,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   if (req.url.includes('/api/')) {
     const token = oauthService.getAccessToken();
     
-    // Debug logging
-    console.log('Intercepting request to:', req.url);
-    console.log('Token available:', !!token);
-    console.log('Is authenticated:', oauthService.hasValidAccessToken());
-    
     if (token) {
       // Clone the request and add the authorization header
       const authReq = req.clone({
@@ -31,8 +26,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           Authorization: `Bearer ${token}`
         }
       });
-      
-      console.log('Added Authorization header');
       
       return next(authReq).pipe(
         catchError((error: HttpErrorResponse) => {

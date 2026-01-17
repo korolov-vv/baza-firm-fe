@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../core/services/api.service';
 import { AuthService } from '../../core/auth/auth.service';
-import { FirmaListDto, FirmaSearchParams, PageableResponse, FirmaCrmSzczegoly } from '../../core/models/firma.model';
+import { FirmaListDto, FirmaSearchParams, PageableResponse, FirmaCrmSzczegoly, StatusKontaktu, StatusKontaktuLabels } from '../../core/models/firma.model';
 import { HttpParams } from '@angular/common/http';
 import { AccountHeaderComponent } from '../account-header/account-header.component';
 import { FirmaDetailsComponent } from '../firma-details/firma-details.component';
@@ -143,5 +143,24 @@ export class ListaFirmComponent implements OnInit {
   onCloseModal(): void {
     this.isModalOpen = false;
     this.selectedFirma = null;
+  }
+
+  onFirmaUpdated(updatedFirma: FirmaCrmSzczegoly): void {
+    // Find and update the firma in the list
+    const index = this.firmy.findIndex(f => f.uuid === updatedFirma.uuid);
+    if (index !== -1) {
+      // Update the relevant fields in the list
+      this.firmy[index] = {
+        ...this.firmy[index],
+        statusKontaktu: updatedFirma.statusKontaktu,
+        dataOstatniegoKontaktu: updatedFirma.dataOstatniegoKontaktu,
+        komentarz: updatedFirma.komentarz
+      };
+    }
+  }
+
+  getStatusKontaktuLabel(status: string | undefined): string {
+    if (!status) return '-';
+    return StatusKontaktuLabels[status as StatusKontaktu] || status;
   }
 }
