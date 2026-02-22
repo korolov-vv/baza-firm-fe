@@ -10,7 +10,7 @@ export const environment = {
   production: true,
   apiUrl: getEnvVar('API_URL', 'http://localhost:8082/api'),
   keycloak: {
-    url: getEnvVar('KEYCLOAK_URL', 'http://localhost:8082'),
+    url: getEnvVar('KEYCLOAK_URL', 'http://localhost:8080'),
     realm: getEnvVar('KEYCLOAK_REALM', 'bazafirm-customer'),
     clientId: getEnvVar('KEYCLOAK_CLIENT_ID', 'customer-app-web')
   }
