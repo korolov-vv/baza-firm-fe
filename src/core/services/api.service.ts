@@ -1,20 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RuntimeConfigService } from './runtime-config.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private get apiUrl(): string {
-    return this.configService.getConfig().apiUrl;
-  }
+  private readonly apiUrl = environment.apiUrl;
 
-  constructor(
-    private http: HttpClient,
-    private configService: RuntimeConfigService
-  ) {}
+  constructor(private http: HttpClient) {}
 
   /**
    * Performs a GET request

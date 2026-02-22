@@ -1,31 +1,13 @@
 import { AuthConfig } from 'angular-oauth2-oidc';
-import { RuntimeConfigService } from '../services/runtime-config.service';
-import { inject } from '@angular/core';
+import { environment } from '../../environments/environment';
 
-export function getAuthConfig(): AuthConfig {
-  const configService = inject(RuntimeConfigService);
-  const config = configService.getConfig();
-  
-  return {
-    issuer: `${config.keycloak.url}/realms/${config.keycloak.realm}`,
-    redirectUri: typeof window !== 'undefined' ? window.location.origin : '',
-    clientId: config.keycloak.clientId,
-    responseType: 'code',
-    scope: 'openid profile email',
-    showDebugInformation: false,
-    requireHttps: false,
-    strictDiscoveryDocumentValidation: false
-  };
-}
-
-// Keep for backwards compatibility, but config should be loaded dynamically
 export const authCodeFlowConfig: AuthConfig = {
-  issuer: '',
+  issuer: `${environment.keycloak.url}/realms/${environment.keycloak.realm}`,
   redirectUri: typeof window !== 'undefined' ? window.location.origin : '',
-  clientId: '',
+  clientId: environment.keycloak.clientId,
   responseType: 'code',
   scope: 'openid profile email',
-  showDebugInformation: false,
+  showDebugInformation: !environment.production,
   requireHttps: false,
   strictDiscoveryDocumentValidation: false
 };

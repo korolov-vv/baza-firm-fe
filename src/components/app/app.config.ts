@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, APP_INITIALIZER } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
@@ -6,11 +6,6 @@ import { provideOAuthClient } from 'angular-oauth2-oidc';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { authInterceptor } from '../../core/interceptors/auth.interceptor';
-import { RuntimeConfigService } from '../../core/services/runtime-config.service';
-
-export function initializeApp(configService: RuntimeConfigService) {
-  return () => configService.loadConfig();
-}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,12 +17,6 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
       withInterceptors([authInterceptor])
     ),
-    provideOAuthClient(),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeApp,
-      deps: [RuntimeConfigService],
-      multi: true
-    }
+    provideOAuthClient()
   ]
 };
