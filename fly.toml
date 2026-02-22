@@ -6,6 +6,14 @@
 app = 'baza-firm-fe'
 primary_region = 'fra'
 
+# Runtime environment variables
+# Set these using: flyctl secrets set KEY=value
+# Example:
+#   flyctl secrets set API_URL=https://api.example.com/api
+#   flyctl secrets set KEYCLOAK_URL=https://auth.example.com
+#   flyctl secrets set KEYCLOAK_REALM=bazafirm-customer
+#   flyctl secrets set KEYCLOAK_CLIENT_ID=customer-app-web
+
 [build]
 
 [http_service]

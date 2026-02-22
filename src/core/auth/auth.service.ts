@@ -2,7 +2,7 @@ import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { authCodeFlowConfig } from './auth-config';
+import { getAuthConfig } from './auth-config';
 import { ApiService } from '../services/api.service';
 import { Uzytkownik } from '../models/uzytkownik.model';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -48,7 +48,7 @@ export class AuthService {
 
   private configure(): void {
     
-    this.oauthService.configure(authCodeFlowConfig);
+    this.oauthService.configure(getAuthConfig());
     
     // Setup automatic silent refresh
     this.oauthService.setupAutomaticSilentRefresh();

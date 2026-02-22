@@ -13,16 +13,19 @@ const app = express();
 const angularApp = new AngularNodeAppEngine();
 
 /**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
+ * Runtime configuration endpoint
+ * Serves environment variables from the server at runtime
  */
+app.get('/api/config', (req, res) => {
+  res.json({
+    apiUrl: process.env['API_URL'] || 'http://localhost:8082/api',
+    keycloak: {
+      url: process.env['KEYCLOAK_URL'] || 'http://localhost:8082',
+      realm: process.env['KEYCLOAK_REALM'] || 'bazafirm-customer',
+      clientId: process.env['KEYCLOAK_CLIENT_ID'] || 'customer-app-web'
+    }
+  });
+});
 
 /**
  * Serve static files from /browser
