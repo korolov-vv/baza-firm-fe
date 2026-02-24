@@ -147,7 +147,7 @@ export class AuthService {
    * Fetches user data from the backend and stores it in session storage
    */
   fetchUserData(): Observable<Uzytkownik> {
-    return this.apiService.get<Uzytkownik>('uzytkownicy/me').pipe(
+    return this.apiService.get<Uzytkownik>('v1/uzytkownicy/me').pipe(
       tap(userData => {
         this.setUserData(userData);
       })

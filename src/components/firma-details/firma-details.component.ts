@@ -71,7 +71,7 @@ export class FirmaDetailsComponent {
       };
 
       this.isSaving = true;
-      this.apiService.put<FirmaCrmSzczegoly>('firmy/kontakt', dto)
+      this.apiService.put<FirmaCrmSzczegoly>('v1/firmy/kontakt', dto)
         .subscribe({
           next: (updated) => {
             this.firma = updated;

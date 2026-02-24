@@ -86,7 +86,7 @@ export class ListaFirmComponent implements OnInit {
       params = params.set('sort', this.searchParams.sort);
     }
 
-    this.apiService.get<PageableResponse<FirmaListDto>>('firmy', params)
+    this.apiService.get<PageableResponse<FirmaListDto>>('v1/firmy', params)
       .subscribe({
         next: (response) => {
           this.firmy = response.content;
@@ -126,7 +126,7 @@ export class ListaFirmComponent implements OnInit {
 
   loadFirmaDetails(uuid: string): void {
     this.isLoadingDetails = true;
-    this.apiService.get<FirmaCrmSzczegoly>(`firmy/${uuid}`)
+    this.apiService.get<FirmaCrmSzczegoly>(`v1/firmy/${uuid}`)
       .subscribe({
         next: (details) => {
           this.selectedFirma = details;
