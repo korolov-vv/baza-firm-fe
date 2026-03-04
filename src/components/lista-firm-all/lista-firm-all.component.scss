@@ -1,0 +1,30 @@
+.lista-firm-all-container {
+  width: 100%;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+
+  .loading-spinner {
+    background: white;
+    padding: 2rem 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    p {
+      margin: 0;
+      font-size: 1rem;
+      color: #2c3e50;
+      font-weight: 500;
+    }
+  }
+}

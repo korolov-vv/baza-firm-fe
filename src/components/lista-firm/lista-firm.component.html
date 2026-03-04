@@ -1,112 +1,33 @@
 <div class="lista-firm-page">
   <div class="container">
-    <div class="content">
-      <!-- Loading indicator -->
-      <div *ngIf="isLoading" class="loading">
-        <p>Ładowanie danych...</p>
-      </div>
-
-      <!-- No data message -->
-      <div *ngIf="!isLoading && firmy.length === 0" class="no-data">
-        <p>Brak firm do wyświetlenia</p>
-      </div>
-
-      <!-- Firms table -->
-      <div *ngIf="!isLoading && firmy.length > 0" class="firms-table-container">
-        <table class="firms-table">
-          <thead>
-            <tr>
-              <th>Nazwa</th>
-              <th>NIP</th>
-              <th>Województwo</th>
-              <th>PKD główny</th>
-              <th>Telefon</th>
-              <th>Email</th>
-              <th>Status kontaktu</th>
-              <th>Data ostatniego kontaktu</th>
-              <th>Komentarz</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr 
-              *ngFor="let firma of firmy" 
-              (dblclick)="onRowDoubleClick(firma)"
-              class="table-row">
-              <td class="firma-nazwa">{{ firma.nazwa }}</td>
-              <td>{{ firma.nip || '-' }}</td>
-              <td>{{ firma.wojewodztwo || '-' }}</td>
-              <td>{{ firma.pkdGlowny.kod || '-' }}</td>
-              <td>{{ firma.telefon || '-' }}</td>
-              <td>{{ firma.email || '-' }}</td>
-              <td>{{ getStatusKontaktuLabel(firma.statusKontaktu) }}</td>
-              <td>
-                {{ firma.dataOstatniegoKontaktu ? (firma.dataOstatniegoKontaktu | date:'dd.MM.yyyy') : '-' }}
-              </td>
-              <td>{{ firma.komentarz || '-' }}</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- Pagination controls -->
-        <div class="pagination-controls">
-          <div class="page-navigation">
-            <button 
-              class="pagination-btn" 
-              (click)="onPageChange(currentPage - 1)" 
-              [disabled]="currentPage === 0">
-              ← Poprzednia
-            </button>
-            
-            <span class="current-page">
-              Strona {{ (currentPage || 0) + 1 }} z {{ totalPages || 1 }}
-            </span>
-            
-            <button 
-              class="pagination-btn" 
-              (click)="onPageChange(currentPage + 1)" 
-              [disabled]="(currentPage + 1) * pageSize >= totalElements">
-              Następna →
-            </button>
-          </div>
-
-          <div class="page-size-selector">
-            <label for="pageSize">Wyświetl:</label>
-            <select 
-              id="pageSize" 
-              (change)="onPageSizeChange(+$any($event.target).value)">
-              <option *ngFor="let size of availablePageSizes" [value]="size" [selected]="size === pageSize">
-                {{ size }}
-              </option>
-            </select>
-            <span>rekordów na stronę</span>
-          </div>
-        </div>
-
-        <!-- Pagination info -->
-        <div class="pagination-info">
-          <p>
-            Wyświetlanie {{ (currentPage || 0) * (pageSize || 10) + 1 }} - 
-            {{ Math.min(((currentPage || 0) + 1) * (pageSize || 10), totalElements || 0) }} 
-            z {{ totalElements || 0 }} firm
-          </p>
-        </div>
-
-      </div>
+    <div class="tabs-container">
+      <button 
+        class="tab-button" 
+        [class.active]="activeTab === 'today'"
+        (click)="onTabChange('today')">
+        ⏰ Lista firm do kontaktu dzisiaj
+      </button>
+      <button 
+        class="tab-button" 
+        [class.active]="activeTab === 'all'"
+        (click)="onTabChange('all')">
+        📋 Lista firm
+      </button>
     </div>
-  </div>
 
-  <!-- Firma Details Modal -->
-  <app-firma-details
-    [firma]="selectedFirma"
-    [isOpen]="isModalOpen"
-    (close)="onCloseModal()"
-    (firmaUpdated)="onFirmaUpdated($event)">
-  </app-firma-details>
+    <div class="content">
+      <!-- Today's firms tab -->
+      <app-lista-firm-today
+        *ngIf="activeTab === 'today'"
+        (firmaUpdated)="onFirmaUpdated($event)">
+      </app-lista-firm-today>
 
-  <!-- Loading indicator for details -->
-  <div *ngIf="isLoadingDetails" class="loading-overlay">
-    <div class="loading-spinner">
-      <p>Ładowanie szczegółów...</p>
+      <!-- All firms tab -->
+      <app-lista-firm-all
+        *ngIf="activeTab === 'all'"
+        (firmaUpdated)="onFirmaUpdated($event)">
+      </app-lista-firm-all>
     </div>
   </div>
 </div>
+

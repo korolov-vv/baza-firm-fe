@@ -1,0 +1,29 @@
+<div class="lista-firm-all-container">
+  <app-firma-table
+    [firmy]="firmy"
+    [isLoading]="isLoading"
+    [currentPage]="currentPage"
+    [pageSize]="pageSize"
+    [totalPages]="totalPages"
+    [totalElements]="totalElements"
+    [availablePageSizes]="availablePageSizes"
+    (rowDoubleClick)="onRowDoubleClick($event)"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)">
+  </app-firma-table>
+
+  <!-- Firma Details Modal -->
+  <app-firma-details
+    [firma]="selectedFirma"
+    [isOpen]="isModalOpen"
+    (close)="onCloseModal()"
+    (firmaUpdated)="onFirmaUpdatedFromModal($event)">
+  </app-firma-details>
+
+  <!-- Loading indicator for details -->
+  <div *ngIf="isLoadingDetails" class="loading-overlay">
+    <div class="loading-spinner">
+      <p>Ładowanie szczegółów...</p>
+    </div>
+  </div>
+</div>
