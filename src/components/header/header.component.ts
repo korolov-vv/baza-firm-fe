@@ -55,4 +55,15 @@ export class HeaderComponent implements OnInit {
     this.userSubscription?.unsubscribe();
     this.sidebarSubscription?.unsubscribe();
   }
+
+  setNazwaFirmy() {
+    if (!this.userData) {
+      return 'Baza firm';
+    } else {
+      if (this.userData?.nazwaFirmy.includes('SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ')) {
+        return this.userData.nazwaFirmy.replace('SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ', 'SP. Z O.O.');
+      }
+      return this.userData.nazwaFirmy;
+    }
+  }
 }
