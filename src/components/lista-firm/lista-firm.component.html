@@ -1,7 +1,5 @@
 <div class="lista-firm-page">
   <div class="container">
-    <app-account-header></app-account-header>
-    
     <div class="content">
       <!-- Loading indicator -->
       <div *ngIf="isLoading" class="loading">
@@ -37,7 +35,7 @@
               <td class="firma-nazwa">{{ firma.nazwa }}</td>
               <td>{{ firma.nip || '-' }}</td>
               <td>{{ firma.wojewodztwo || '-' }}</td>
-              <td>{{ firma.pkdGlowny?.kod || '-' }}</td>
+              <td>{{ firma.pkdGlowny.kod || '-' }}</td>
               <td>{{ firma.telefon || '-' }}</td>
               <td>{{ firma.email || '-' }}</td>
               <td>{{ getStatusKontaktuLabel(firma.statusKontaktu) }}</td>

@@ -1,1 +1,7 @@
-<router-outlet />
+<div class="app-container">
+  <app-header></app-header>
+  <app-sidebar *ngIf="isAuthenticated"></app-sidebar>
+  <main [class.with-sidebar]="isAuthenticated && !isSidebarCollapsed" [class.with-sidebar-collapsed]="isAuthenticated && isSidebarCollapsed">
+    <router-outlet />
+  </main>
+</div>

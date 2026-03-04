@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { Uzytkownik } from '../../core/models/uzytkownik.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -11,15 +13,23 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent implements OnInit {
   isAuthenticated = false;
+  isSidebarCollapsed = false;
+  userData: Uzytkownik | null = null;
+  private userSubscription?: Subscription;
+  private sidebarSubscription?: Subscription;
+  
   
   constructor(
     public authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {}
 
   async ngOnInit(): Promise<void> {
     await this.authService.waitForInit();
     this.isAuthenticated = this.authService.isAuthenticated;
+    this.userSubscription = this.authService.currentUser$.subscribe(
+      user => this.userData = user
+    );
     console.log('Header initialized, authenticated:', this.isAuthenticated);
   }
 
@@ -39,5 +49,10 @@ export class HeaderComponent implements OnInit {
 
   onAccount(): void {
     this.router.navigate(['/account']);
+  }
+
+  ngOnDestroy(): void {
+    this.userSubscription?.unsubscribe();
+    this.sidebarSubscription?.unsubscribe();
   }
 }

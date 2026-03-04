@@ -1,8 +1,8 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://baza-firm-be.fly.dev/api',
+  apiUrl: 'http://localhost:8080/api',
   keycloak: {
-    url: 'https://keycloak-bazafirm.fly.dev',
+    url: 'http://localhost:8082',
     realm: 'bazafirm-customer',
     clientId: 'customer-app-web'
   }

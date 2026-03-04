@@ -4,12 +4,11 @@ import { ApiService } from '../../core/services/api.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { FirmaListDto, FirmaSearchParams, PageableResponse, FirmaCrmSzczegoly, StatusKontaktu, StatusKontaktuLabels } from '../../core/models/firma.model';
 import { HttpParams } from '@angular/common/http';
-import { AccountHeaderComponent } from '../account-header/account-header.component';
 import { FirmaDetailsComponent } from '../firma-details/firma-details.component';
 
 @Component({
   selector: 'app-lista-firm',
-  imports: [CommonModule, AccountHeaderComponent, FirmaDetailsComponent],
+  imports: [CommonModule, FirmaDetailsComponent],
   templateUrl: './lista-firm.component.html',
   styleUrls: ['./lista-firm.component.scss']
 })

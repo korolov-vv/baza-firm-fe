@@ -1,0 +1,39 @@
+<aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
+  <div class="sidebar-top-actions">
+    <button class="toggle-btn" (click)="onToggleSidebar()" [attr.aria-label]="isSidebarCollapsed ? 'Rozwiń sidebar' : 'Zminimalizuj sidebar'">
+      {{ isSidebarCollapsed ? '»' : '«' }}
+    </button>
+  </div>
+
+  <nav class="sidebar-nav">
+    <ul class="nav-menu">
+      <li class="nav-item">
+        <a 
+          class="nav-link" 
+          [class.active]="isActive('/account')"
+          (click)="navigateTo('/account')"
+        >
+          <span class="icon">📋</span>
+          <span class="label" *ngIf="!isSidebarCollapsed">Panel użytkownika</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a 
+          class="nav-link" 
+          [class.active]="isActive('/account/lista-firm')"
+          (click)="navigateTo('/account/lista-firm')"
+        >
+          <span class="icon">📂</span>
+          <span class="label" *ngIf="!isSidebarCollapsed">Lista firm</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="btn btn-danger" (click)="onLogout()">
+      <span class="icon">🚪</span>
+      <span class="label" *ngIf="!isSidebarCollapsed">Wyloguj się</span>
+    </button>
+  </div>
+</aside>
