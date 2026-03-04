@@ -3,8 +3,11 @@
     <div class="daily-contact-message" *ngIf="todayContactCount > 0">
       <div class="message-icon">⚡</div>
       <div class="message-content">
-        <p>Witaj!</p>
-        <p>W dniu dzisiejszym masz zaplanowany kontakt do <span class="firm-count">{{ todayContactCount }}</span> firm</p>
+        <div>
+          <p>Witaj!</p>
+          <p>W dniu dzisiejszym masz zaplanowany kontakt do <span class="firm-count">{{ todayContactCount }}</span> firm</p>
+        </div>
+        <button class="btn btn-primary" (click)="navigateToListaFirm()">Przejdź do listy firm</button>
       </div>
     </div>
     <div class="account-content">

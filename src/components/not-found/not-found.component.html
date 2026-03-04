@@ -5,8 +5,13 @@
     <p class="error-message">
       Przepraszamy, ale strona, której szukasz, nie istnieje lub została przeniesiona.
     </p>
-    <button class="home-button" (click)="goHome()">
-      Wróć do strony głównej
-    </button>
+    <div class="button-group">
+      <button class="home-button" (click)="goHome()">
+        Wróć do strony głównej
+      </button>
+      <button class="lista-firm-button" (click)="goToListaFirm()">
+        Przejdź do listy firm do kontaktu dzisiaj
+      </button>
+    </div>
   </div>
 </div>
