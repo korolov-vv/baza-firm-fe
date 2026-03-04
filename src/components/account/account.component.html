@@ -1,5 +1,12 @@
 <div class="account-page">
   <div class="container">
+    <div class="daily-contact-message" *ngIf="todayContactCount > 0">
+      <div class="message-icon">⚡</div>
+      <div class="message-content">
+        <p>Witaj!</p>
+        <p>W dniu dzisiejszym masz zaplanowany kontakt do <span class="firm-count">{{ todayContactCount }}</span> firm</p>
+      </div>
+    </div>
     <div class="account-content">
       <div class="profile-card">
         <h2>Informacje o użytkowniku</h2>
